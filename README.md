@@ -2,6 +2,7 @@
 Vislice projekt
 
 ## Znani slovenski matematiki:
-Jurij Vega
-Ivan Vidav
-Josip Plemelj
+- Borut Pahor
+- Jurij Vega
+- Ivan Vidav
+- Josip Plemelj
