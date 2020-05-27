@@ -1,4 +1,5 @@
 import random
+import json  # to smo spremenil 27.5
 
 STEVILO_DOVOLJENIH_NAPAK = 9
 
@@ -8,6 +9,7 @@ NAPACNA_CRKA = "-"
 ZMAGA = "W"
 PORAZ = "X"
 
+ZACETEK = "S"
 
 class Igra:
 
@@ -58,7 +60,7 @@ class Igra:
         else:
             self.crke.append(crka.upper())
             if crka in self.geslo:
-                if self.zmaga:
+                if self.zmaga():
                     return ZMAGA
                 return PRAVILNA_CRKA
             else:
@@ -74,3 +76,63 @@ with open("C:\\Users\\Tadej\\Documents\\Tekst\\Faks\\UVP\\Vislice\\besede.txt", 
 
 def nova_igra():
     return Igra(random.choice(bazen_besed))
+
+class Vislice:
+
+    """
+    >>> v = Vislice()
+    >>> v.nova_igra()
+    0
+    >>> v.igre
+    {1: (<__main__.Igra object at 0x00000133B2328508>, 'S')}
+    """
+
+    def __init__(self, datoteka_s_stanjem, datoteka_z_besedami='UVP\\Vislice\\besede.txt'):  # tu smo spremenil 27.5
+        self.igre = {}
+        self.datoteka_s_stanjem = datoteka_s_stanjem
+        self.datoteka_z_besedami = datoteka_z_besedami
+    
+    def prost_id_igre(self):
+        return max(self.igre.keys(), default=-1) + 1  # nov ključ, ki ga zagotovo nobena druga igra še nima
+    
+    def nova_igra(self):
+        self.nalozi_igre_iz_datoteke()
+
+        with open(self.datoteka_z_besedami, 'r', encoding='utf-8') as f:
+            bazen_besed = [vrstica.strip().upper() for vrstica in f]  # bazen besed je lah zdj drugačen pr vsaki novi igri
+
+        igra = nova_igra()
+        id_igre = self.prost_id_igre()
+        self.igre[id_igre] = (igra, ZACETEK)
+
+        self.zapisi_igre_v_datoteko()
+        return id_igre  # vrne ravnokar zgeneriran ključ
+
+    def ugibaj(self, id_igre, crka):
+        self.nalozi_igre_iz_datoteke()
+        igra, _ = self.igre[id_igre]  # prejšnje stanje nas ne zanima
+
+        poskus = igra.ugibaj(crka)  # to ni ta ista metoda
+        self.igre[id_igre] = (igra, poskus)  # shrani nazaj stanje te igre
+
+        self.zapisi_igre_v_datoteko()
+
+    # na novo
+    def zapisi_igre_v_datoteko(self):
+        with open(self.datoteka_s_stanjem, "w", encoding="utf-8") as f:
+            igre_1 = {
+                id_igre : ((igra.geslo, igra.crke), poskus)  # s tem bomo rekonstruirali
+                for id_igre, (igra, poskus) in self.igre.items() # igre.items je slovar, vrednost je nabor (igra, poskus) 
+            }
+            json.dump(igre_1, f)  # ni self.igre
+        return  # ne rabmo dejansko
+    
+    def nalozi_igre_iz_datoteke(self):
+        with open(self.datoteka_s_stanjem, 'r', encoding="utf-8") as f:
+            igre = json.load(f)
+            self.igre = {
+                int(id_igre): (Igra(geslo, crke), poskus)  # Igra (z vlko) je en naš class
+                for id_igre, ((geslo, crke), poskus) in igre.items()
+            }  
+    # poleg teh dveh funkcij moramo še nardit neki v spletnemu vmesniku
+    # Commenti NISO dovoljeni v JSONu
