@@ -48,5 +48,6 @@ def pozeni_vmesnik():
             break
     return  # vrnili smo None. V resnic ne rabmo tega pisat (je pa estetsko, da se vid da je konc funkcije)
 
+
 # Zaženi igro:
 pozeni_vmesnik()
