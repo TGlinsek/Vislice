@@ -1,10 +1,10 @@
 import bottle
-import model
+import model2
 import os
 
 # ./views
 # c:\\Users\\Tadej\\Documents\\Tekst\\Faks\\UVP\\Vislice\\views
-vislice = model.Vislice()
+vislice = model2.Vislice()
 
 
 @bottle.get('/')

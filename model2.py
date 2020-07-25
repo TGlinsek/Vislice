@@ -117,7 +117,7 @@ class Vislice:
 
         self.zapisi_igre_v_datoteko()
 
-    # na novo
+    # na novo napisano za vislice2 (delo z datotekami) - tut uzgor smo mal spremenil, ampak nč takega
     def zapisi_igre_v_datoteko(self):
         with open(self.datoteka_s_stanjem, "w", encoding="utf-8") as f:
             igre_1 = {

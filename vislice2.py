@@ -1,6 +1,7 @@
 import bottle
-import model
+import model2
 import os
+
 # vse vrstice, kjer piše kej v zvezi s cookiji, so pač na novo. Ostalo kar je, smo id_igre odstranli povečini
 SKRIVNOST = "moja_prva_skrivnost"
 DATOTEKA_S_STANJEM = "UVP\\Vislice\\stanje.json"
@@ -8,7 +9,7 @@ DATOTEKA_Z_BESEDAMI = "UVP\\Vislice\\besede.txt"  # mi bomo vzeli kar vse slo be
 
 # ./views
 # c:\\Users\\Tadej\\Documents\\Tekst\\Faks\\UVP\\Vislice\\views
-vislice = model.Vislice(DATOTEKA_S_STANJEM, DATOTEKA_Z_BESEDAMI)
+vislice = model2.Vislice(DATOTEKA_S_STANJEM, DATOTEKA_Z_BESEDAMI)
 vislice.nalozi_igre_iz_datoteke()  # seveda moramo spet naložiti to igro
 
 @bottle.get('/')
@@ -23,7 +24,7 @@ def index():
 def nova_igra():
     id_igre = vislice.nova_igra()
 
-    # tu moramo pretvori v string (v lepem formatu)
+    # tu moramo pretvorit v string (v lepem formatu)
     bottle.response.set_cookie('idigre', "id_igre{}".format(id_igre), secret="SKRIVNOST", path='/')  # response ma set cookie, request pa get cookie
     bottle.redirect('/igra/')
 

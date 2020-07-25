@@ -1,4 +1,4 @@
-% import model
+% import model2
 % rebase('UVP\\Vislice\\views\\base.tpl', title="Vislice")  # title parameter zgleda nč ne nardi. Mogoče nadomestek, če slučajn naslova ni. Lah napišeš karkol v title
 <!-- id_igre, igra, in poskus se prenesejo sem  --->
 
@@ -16,19 +16,19 @@
     <tr>
       <td>
       <img src="../img/{{igra.stevilo_napak()}}.jpg" alt="obesenec">  <!-- tu smo odstranili (glede na igra1) ../ -->
-        Stopnja obešenosti : {{igra.stevilo_napak()}} / {{model.STEVILO_DOVOLJENIH_NAPAK + 1}}  <!-- slash ni deljenje tukaj --->
+        Stopnja obešenosti : {{igra.stevilo_napak()}} / {{model2.STEVILO_DOVOLJENIH_NAPAK + 1}}  <!-- slash ni deljenje tukaj --->
       </td>
     </tr>
   </table>
 
-  % if poskus == model.ZMAGA:
+  % if poskus == model2.ZMAGA:
 
   <h1>ZMAGA!</h1>
   <form action="/nova_igra/" method="post">  <!-- tu je prej bil sam igra --->
     <button type="submit">Nova igra</button>
   </form>
 
-  % elif poskus == model.PORAZ:
+  % elif poskus == model2.PORAZ:
 
   <h1> LOSER! </h1>
 
